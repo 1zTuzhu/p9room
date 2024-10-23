@@ -1,0 +1,175 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: rgba(255, 255, 0, 0);
+  display: flex;
+  float: right;
+}
+
+:root {
+  --bar-width: 25px;
+  --bar-height: 5px;
+  --hamburger-gap: 3px;
+  --foreground: #333;
+  --background: white;
+  --text-colour: #666;
+  --hamburger-margin: 15px;
+  --animation-timing: 300ms ease-in-out;
+  --hamburger-height: calc(var(--bar-height) * 3 + var(--hamburger-gap) * 2);
+  --min-sidebar-width: 25rem;
+}
+
+.hamburger-menu {
+  transition: translate var(--animation-timing);
+  --cross-width: calc(var(--hamburger-height) * sqrt(2));
+
+  background-color: white;
+  padding: var(--bar-width);
+  border-radius: 50%;
+  opacity: 90%;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--hamburger-gap);
+  width: max-content;
+  position: absolute;
+  top: var(--hamburger-margin);
+  left: var(--hamburger-margin);
+  z-index: 2;
+  cursor: pointer;
+}
+
+.hamburger-menu::before,
+.hamburger-menu::after,
+.hamburger-menu input {
+  content: "";
+  width: var(--bar-width);
+  height: var(--bar-height);
+  background-color: var(--foreground);
+  border-radius: 9999px;
+  transform-origin: left center;
+  transition: opacity var(--animation-timing), width var(--animation-timing),
+  rotate var(--animation-timing), translate var(--animation-timing),
+  background-color var(--animation-timing);
+}
+
+.hamburger-menu input {
+  appearance: none;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  pointer-events: none;
+}
+
+.hamburger-menu:has(input:checked)::before {
+  rotate: 45deg;
+  width: var(--cross-width);
+  translate: 0 calc(var(--bar-height) / -2);
+}
+.hamburger-menu:has(input:checked)::after {
+  rotate: -45deg;
+  width: var(--cross-width);
+  translate: 0 calc(var(--bar-height) / 2);
+}
+
+.hamburger-menu input:checked {
+  opacity: 0;
+  width: 0;
+}
+
+.hamburger-menu:has(input:checked) {
+  translate: calc( var(--min-sidebar-width) - var(--bar-width) * 4);
+}
+
+.sidebar {
+  transition: translate var(--animation-timing);
+  translate: 0;
+  padding: .5rem 1rem;
+  /* padding-top: calc(var(--hamburger-height) + var(--hamburger-margin) + 1rem); */
+  background-color: var(--background);
+  color: var(--foreground);
+  min-width: var(--min-sidebar-width);
+  max-height: 98vh;
+  box-shadow: 0 0 1em rgb(0, 0, 0, 0.3);
+  border-radius: 3px;
+  margin-top: 1vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.hamburger-menu:has(input:checked) + .sidebar {
+  translate: 100%;
+}
+
+.modal {
+  display: flex;
+  position: absolute;
+  border: 0;
+  box-shadow: 0 0 1em rgb(0, 0, 0, 0.3);
+  /* overflow: hidden; */
+  width: 60vw;
+  height: 75vh;
+  padding: 0;
+  outline: none;
+  z-index: 2;
+}
+
+.modal:not([open]) {
+  display:none;
+}
+
+h2 {
+  font: var(--bar-width) "Tahoma", sans-serif;
+  padding-left: 1rem;
+  padding-bottom: 0.5rem;
+  color: var(--foreground);
+  text-decoration: underline;
+  text-underline-offset: 0.75rem;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+ul button {
+  transition: color var(--animation-timing), background-color var(--animation-timing);
+
+  width: 100%;
+  padding-bottom: 25%;
+  background-color: var(--background);
+  font: var(--bar-width) "Tahoma", sans-serif;
+  color: var(--foreground);
+  border: 1px var(--text-colour) solid;
+  padding: 0.5em;
+}
+
+ul button:hover {
+  color: var(--background);
+  background-color: var(--foreground);
+}
+
+#reset-button {
+  transition: color var(--animation-timing), background-color var(--animation-timing);
+  width: 100%;
+  padding: 0.5em;
+  background-color: var(--background);
+  font: var(--bar-width) "Tahoma", sans-serif;
+  color: var(--foreground);
+  border: 1px var(--text-colour) solid;
+  margin-top: 10px;
+}
+
+#reset-button:hover {
+  color: var(--background);
+  background-color: var(--foreground);
+}
